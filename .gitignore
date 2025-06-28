@@ -1,1 +1,5 @@
 node_modules/
+
+# Ignore SSH private and public keys
+github-actions-key
+github-actions-key.pub
