@@ -9,10 +9,12 @@ body {
 
 h1 {
   color: #2c7a7b;
+  text-align: center;
 }
 
 p {
   font-size: 1.1rem;
+  text-align: center;
 }
 
 code {
