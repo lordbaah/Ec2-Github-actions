@@ -1,0 +1,22 @@
+/* public/style.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 2rem;
+}
+
+h1 {
+  color: #2c7a7b;
+}
+
+p {
+  font-size: 1.1rem;
+}
+
+code {
+  background-color: #eee;
+  padding: 2px 4px;
+  border-radius: 4px;
+}

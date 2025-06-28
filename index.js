@@ -1,9 +1,13 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
 
-// Root route with current server time
+// Serve static files from "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Root route
 app.get('/', (req, res) => {
   const now = new Date();
   res.send(`
@@ -11,6 +15,8 @@ app.get('/', (req, res) => {
     <html>
       <head>
         <title>Server Status</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="/script.js" defer></script>
       </head>
       <body>
         <h1>🟢 Server is up and running on AWS EC2</h1>
@@ -20,7 +26,7 @@ app.get('/', (req, res) => {
   `);
 });
 
-// Route with a dynamic user name
+// Dynamic user route
 app.get('/user/:name', (req, res) => {
   const { name } = req.params;
   res.send(`
@@ -28,6 +34,8 @@ app.get('/user/:name', (req, res) => {
     <html>
       <head>
         <title>User Greeting</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="/script.js" defer></script>
       </head>
       <body>
         <h1>Hello, ${name}!</h1>
@@ -37,7 +45,7 @@ app.get('/user/:name', (req, res) => {
   `);
 });
 
-// Route that uses query parameters
+// Query param greeting
 app.get('/greet', (req, res) => {
   const name = req.query.name || 'Guest';
   res.send(`
@@ -45,6 +53,8 @@ app.get('/greet', (req, res) => {
     <html>
       <head>
         <title>Greeting</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="/script.js" defer></script>
       </head>
       <body>
         <h1>Greetings, ${name}!</h1>
@@ -54,7 +64,7 @@ app.get('/greet', (req, res) => {
   `);
 });
 
-// JSON response example (keep this as JSON)
+// JSON API route
 app.get('/api/info', (req, res) => {
   res.json({
     status: 'ok',
