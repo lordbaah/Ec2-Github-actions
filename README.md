@@ -97,7 +97,6 @@ my-app/
 4. **Create the application directory:**
    ```bash
    mkdir ~/my-app
-   cd ~/my-app
    ```
 
 ### 🔐 Step 2: Prepare SSH Access from GitHub Actions to EC2
