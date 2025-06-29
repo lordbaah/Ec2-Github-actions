@@ -88,9 +88,16 @@ my-app/
    ```
 
 3. **Install dependencies:**
+
    ```bash
    sudo apt update && sudo apt install nodejs npm -y
    sudo npm install -g pm2
+   ```
+
+4. **Create the application directory:**
+   ```bash
+   mkdir ~/my-app
+   cd ~/my-app
    ```
 
 ### 🔐 Step 2: Prepare SSH Access from GitHub Actions to EC2
@@ -142,6 +149,47 @@ my-app/
 | `EC2_SSH_KEY` | Contents of `github-actions-key` (private key) |
 
 ⚠️ **Important:** When adding `EC2_SSH_KEY`, copy and paste the entire private key content exactly as it appears in the file, including the header and footer lines (`-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----`).
+
+---
+
+## 🚀 GitHub Actions Workflow
+
+The deployment workflow uses the following steps:
+
+```yaml
+run: |
+  rsync -avz --delete ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/my-app
+  ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+    cd ~/my-app
+    npm install
+    pm2 restart index.js || pm2 start index.js
+  EOF
+```
+
+This workflow:
+
+1. Syncs your code to the `~/my-app` directory on EC2
+2. Installs npm dependencies
+3. Restarts the application using PM2 (or starts it if not running)
+
+---
+
+## 🌐 Accessing Your Application
+
+Once deployed, your application will be accessible at:
+
+```
+http://<EC2-PUBLIC-IP>:3000
+```
+
+**Example:** If your EC2 public IP is `3.123.45.67`, visit:
+
+- **Home page:** `http://3.123.45.67:3000`
+- **User route:** `http://3.123.45.67:3000/user/john`
+- **Greet route:** `http://3.123.45.67:3000/greet?name=Alice`
+- **API info:** `http://3.123.45.67:3000/api/info`
+
+⚠️ **Important:** Make sure port 3000 is open in your EC2 security group inbound rules.
 
 ---
 
